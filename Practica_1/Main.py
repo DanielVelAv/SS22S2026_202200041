@@ -103,31 +103,33 @@ df_completo = pd.concat([df1, df2], axis=1)
 print(f"\nDataframe unido: {len(df_completo)} registros, {len(df_completo.columns)} columnas")
 
 
-# FASE 3: CARGA A SQL SERVER
-print("\n" + "=" * 60)
 print("FASE 3: CARGA")
 print("\n")
 
 import pyodbc
 
-# Conexion a SQL Server (Docker)
-SERVER = 'localhost,1433'
-DATABASE = 'practica1_ss2'
-USER = 'sa'
-PASSWORD = 'Pr4ctica1#SS2'
-DRIVER = '{ODBC Driver 18 for SQL Server}'
+
+SERVER = 'localhost,1433'       # Host y puerto del contenedor Docker
+DATABASE = 'practica1_ss2'      # Nombre de la base de datos destino
+USER = 'sa'                     # Usuario administrador de SQL Server
+PASSWORD = 'Pr4ctica1#SS2'      # Contraseña definida en docker-compose.yml
+DRIVER = '{ODBC Driver 18 for SQL Server}'  # Driver ODBC instalado en el SO
 
 def conectar_db():
+    
+    #Crea y retorna una conexión a SQL Server usando pyodbc.
+    
     conn_str = f'DRIVER={DRIVER};SERVER={SERVER};DATABASE={DATABASE};UID={USER};PWD={PASSWORD};TrustServerCertificate=yes'
     return pyodbc.connect(conn_str)
 
+
+# Lee el archivo modelo.sql que contiene los CREATE TABLE de las
+# tablas de dimensión y la tabla de hechos del modelo estrella.
 def crear_modelo(cursor):
-    """Crea las tablas del modelo dimensional si no existen."""
-    # Leer y ejecutar el script SQL
+    
     with open('./modelo.sql', 'r') as f:
         sql = f.read()
-
-    # Separar por GO y ejecutar cada bloque
+    # pyodbc no lo soporta GO, así que dividimos manualmente.
     bloques = sql.split('GO')
     for bloque in bloques:
         bloque = bloque.strip()
@@ -135,29 +137,32 @@ def crear_modelo(cursor):
             try:
                 cursor.execute(bloque)
             except pyodbc.ProgrammingError as e:
-                # La tabla ya existe, se ignora
+                # Error 2714 = "Ya existe un objeto con ese nombre"
                 if '2714' in str(e):
                     pass
                 else:
                     print(f"  Advertencia: {e}")
 
+
+
 def cargar_dimension(cursor, tabla, columnas, datos):
-    """Inserta valores unicos en una tabla de dimension y retorna un dict de mapeo valor->id."""
+
     mapeo = {}
     for valor in datos:
         if pd.isna(valor):
             continue
         valor_str = str(valor).strip()
         if valor_str in mapeo:
-            continue
-
-        # Verificar si ya existe
+            continue  # Ya fue procesado, evitar duplicados
+        # Primero verifica si el valor ya existe en la tabla
         cols_where = ' AND '.join([f"{c} = ?" for c in columnas])
         cursor.execute(f"SELECT TOP 1 * FROM {tabla} WHERE {cols_where}", *([valor_str] * len(columnas)))
         fila = cursor.fetchone()
         if fila:
+            # Ya existe: tomar el id existente
             mapeo[valor_str] = fila[0]
         else:
+            # No existe: insertar y obtener el id auto-generado con @@IDENTITY
             cols_insert = ', '.join(columnas)
             placeholders = ', '.join(['?'] * len(columnas))
             cursor.execute(f"INSERT INTO {tabla} ({cols_insert}) VALUES ({placeholders})", *([valor_str] * len(columnas)))
@@ -166,27 +171,27 @@ def cargar_dimension(cursor, tabla, columnas, datos):
     return mapeo
 
 def cargar_dimension_tiempo(cursor, fechas):
-    """Inserta fechas unicas en dim_tiempo y retorna mapeo fecha->id."""
+
     mapeo = {}
     for fecha in fechas:
         if pd.isna(fecha):
             continue
         fecha_dt = pd.Timestamp(fecha)
-        fecha_date = fecha_dt.date()
-        fecha_str = str(fecha_date)
-
+        fecha_date = fecha_dt.date()      # Solo la parte de fecha (sin hora)
+        fecha_str = str(fecha_date)        # Clave del mapeo como string
         if fecha_str in mapeo:
-            continue
-
+            continue  # Ya procesada
+        # Verificar si la fecha ya existe en la tabla
         cursor.execute("SELECT id_tiempo FROM dim_tiempo WHERE fecha = ?", fecha_date)
         fila = cursor.fetchone()
         if fila:
             mapeo[fecha_str] = fila[0]
         else:
+            # Calcular atributos derivados de la fecha
             anio = fecha_dt.year
             mes = fecha_dt.month
             dia = fecha_dt.day
-            trimestre = (mes - 1) // 3 + 1
+            trimestre = (mes - 1) // 3 + 1  # Q1=ene-mar, Q2=abr-jun, etc.
             cursor.execute(
                 "INSERT INTO dim_tiempo (fecha, anio, mes, dia, trimestre) VALUES (?, ?, ?, ?, ?)",
                 fecha_date, anio, mes, dia, trimestre
@@ -196,18 +201,19 @@ def cargar_dimension_tiempo(cursor, fechas):
     return mapeo
 
 def cargar_dimension_pasajero(cursor, df):
-    """Inserta pasajeros unicos en dim_pasajero."""
+    
     mapeo = {}
     for _, row in df.iterrows():
         pid = str(row['passenger_id']).strip()
         if pid in mapeo:
-            continue
-
+            continue  # Ya fue insertado
+        # Verificar si el pasajero ya existe
         cursor.execute("SELECT id_pasajero FROM dim_pasajero WHERE passenger_id = ?", pid)
         fila = cursor.fetchone()
         if fila:
             mapeo[pid] = fila[0]
         else:
+            # Extraer atributos del pasajero, None si son nulos
             genero = row['passenger_gender'] if pd.notna(row['passenger_gender']) else None
             edad = int(row['passenger_age']) if pd.notna(row['passenger_age']) else None
             nacionalidad = row['passenger_nationality'] if pd.notna(row['passenger_nationality']) else None
@@ -219,19 +225,22 @@ def cargar_dimension_pasajero(cursor, df):
             mapeo[pid] = int(cursor.fetchone()[0])
     return mapeo
 
+
 def cargar_datos():
-    """Ejecuta la carga completa de dimensiones y hechos."""
+    # Conectar a la base de datos
     conn = conectar_db()
     cursor = conn.cursor()
 
+    # Crear las tablas si no existen
     print("Creando modelo dimensional...")
     crear_modelo(cursor)
     conn.commit()
 
-    # Cargar dimensiones simples
+    # Cada dimensión se carga por separado. El resultado es un diccionario
+    # que mapea el valor original al id en la BD, ej: {'AA': 1, 'UA': 2}
     print("Cargando dimensiones...")
 
-    # Aerolinea: necesita codigo + nombre
+    # Aerolínea: se maneja aparte porque tiene 2 columnas (codigo + nombre)
     map_aerolinea = {}
     for _, row in df1[['airline_code', 'airline_name']].drop_duplicates().iterrows():
         code = str(row['airline_code']).strip()
@@ -249,20 +258,20 @@ def cargar_datos():
             map_aerolinea[key] = int(cursor.fetchone()[0])
     print(f"  dim_aerolinea: {len(map_aerolinea)} registros")
 
-    # Aeropuertos (union de origen y destino)
+    # Aeropuertos: se juntan origen y destino para obtener todos los códigos únicos
     todos_aeropuertos = pd.concat([df1['origin_airport'], df1['destination_airport']]).dropna().unique()
     map_aeropuerto = cargar_dimension(cursor, 'dim_aeropuerto', ['codigo'], todos_aeropuertos)
     print(f"  dim_aeropuerto: {len(map_aeropuerto)} registros")
 
-    # Estado
+    # Estado del vuelo
     map_estado = cargar_dimension(cursor, 'dim_estado_vuelo', ['estado'], df1['status'].dropna().unique())
     print(f"  dim_estado_vuelo: {len(map_estado)} registros")
 
-    # Tipo avion
+    # Tipo de avión
     map_avion = cargar_dimension(cursor, 'dim_tipo_avion', ['tipo'], df1['aircraft_type'].dropna().unique())
     print(f"  dim_tipo_avion: {len(map_avion)} registros")
 
-    # Clase cabina
+    # Clase de cabina
     map_clase = cargar_dimension(cursor, 'dim_clase_cabina', ['clase'], df1['cabin_class'].dropna().unique())
     print(f"  dim_clase_cabina: {len(map_clase)} registros")
 
@@ -270,7 +279,7 @@ def cargar_datos():
     map_canal = cargar_dimension(cursor, 'dim_canal_venta', ['canal'], df2['sales_channel'].dropna().unique())
     print(f"  dim_canal_venta: {len(map_canal)} registros")
 
-    # Metodo pago
+    # Método de pago
     map_metodo = cargar_dimension(cursor, 'dim_metodo_pago', ['metodo'], df2['payment_method'].dropna().unique())
     print(f"  dim_metodo_pago: {len(map_metodo)} registros")
 
@@ -278,7 +287,8 @@ def cargar_datos():
     map_moneda = cargar_dimension(cursor, 'dim_moneda', ['moneda'], df2['currency'].dropna().unique())
     print(f"  dim_moneda: {len(map_moneda)} registros")
 
-    # Tiempo (fechas de salida, llegada y reserva)
+    # Tiempo: se juntan las 3 columnas de fecha para obtener todas las fechas únicas
+    # (salida, llegada y reserva). Cada fecha se descompone en año, mes, día, trimestre.
     todas_fechas = pd.concat([
         df1['departure_datetime'].dropna(),
         df1['arrival_datetime'].dropna(),
@@ -287,28 +297,36 @@ def cargar_datos():
     map_tiempo = cargar_dimension_tiempo(cursor, todas_fechas)
     print(f"  dim_tiempo: {len(map_tiempo)} registros")
 
-    # Pasajeros
+    # Pasajeros: cada pasajero único con su género, edad y nacionalidad
     map_pasajero = cargar_dimension_pasajero(cursor, df2)
     print(f"  dim_pasajero: {len(map_pasajero)} registros")
 
-    conn.commit()
+    conn.commit()  # Guardar todas las dimensiones antes de cargar hechos
 
-    # Cargar tabla de hechos
+    # Aquí se recorre cada fila del dataframe unido y se inserta en fact_vuelo.
+    # Los valores originales (ej: 'AA', 'JFK') se reemplazan por los IDs
+    # que obtuvimos al cargar las dimensiones
     print("Cargando tabla de hechos...")
 
-    # Funcion auxiliar: busca en mapeo solo si el valor no es nulo
+    # Funciones auxiliares para buscar el ID correspondiente en un mapeo.
+    # Si el valor es nulo (NaN), retorna None para que SQL lo guarde como NULL.
     def buscar(mapeo, valor):
+        """Busca el ID en el mapeo para un valor dado. Retorna None si es nulo."""
         if pd.isna(valor): return None
         return mapeo.get(str(valor).strip())
 
     def buscar_tiempo(valor):
+        """Busca el ID de tiempo para una fecha dada. Convierte a date() primero."""
         if pd.isna(valor): return None
         return map_tiempo.get(str(pd.Timestamp(valor).date()))
 
+    # Recorrer cada fila e insertar en la tabla de hechos
     total = 0
     for i in range(len(df_completo)):
         row = df_completo.iloc[i]
 
+        # Cada INSERT reemplaza los valores textuales por sus IDs de dimensión.
+        # Si algún valor es nulo, se inserta como NULL en la BD.
         cursor.execute("""
             INSERT INTO fact_vuelo (
                 record_id, flight_number, seat,
@@ -343,16 +361,19 @@ def cargar_datos():
             int(row['bags_checked']) if pd.notna(row['bags_checked']) else None
         )
         total += 1
+        # Cada 2000 registros se hace commit parcial y se muestra progreso
         if total % 2000 == 0:
             print(f"  {total} registros insertados...")
             conn.commit()
 
+    # Commit final para los registros restantes
     conn.commit()
     print(f"  Total: {total} registros insertados en fact_vuelo")
 
+    # Cerrar conexión y liberar recursos
     cursor.close()
     conn.close()
     print("\nCarga completada.")
 
-# Ejecutar carga
+# Ejecutar la función principal de carga
 cargar_datos()
