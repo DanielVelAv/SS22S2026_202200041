@@ -113,13 +113,29 @@ SERVER = 'localhost,1433'       # Host y puerto del contenedor Docker
 DATABASE = 'practica1_ss2'      # Nombre de la base de datos destino
 USER = 'sa'                     # Usuario administrador de SQL Server
 PASSWORD = 'Pr4ctica1#SS2'      # Contraseña definida en docker-compose.yml
-DRIVER = '{ODBC Driver 18 for SQL Server}'  # Driver ODBC instalado en el SO
+
+def obtener_driver_sqlserver():
+    """Selecciona el mejor driver de SQL Server disponible en el sistema."""
+    drivers_disponibles = {d.strip() for d in pyodbc.drivers()}
+    prioridades = [
+        'ODBC Driver 18 for SQL Server',
+        'ODBC Driver 17 for SQL Server',
+        'SQL Server',
+    ]
+    for driver in prioridades:
+        if driver in drivers_disponibles:
+            return driver
+    raise RuntimeError(
+        "No se encontro un driver ODBC de SQL Server. "
+        "Instala 'ODBC Driver 18 for SQL Server' o 'ODBC Driver 17 for SQL Server'."
+    )
 
 def conectar_db():
     
     #Crea y retorna una conexión a SQL Server usando pyodbc.
     
-    conn_str = f'DRIVER={DRIVER};SERVER={SERVER};DATABASE={DATABASE};UID={USER};PWD={PASSWORD};TrustServerCertificate=yes'
+    driver = obtener_driver_sqlserver()
+    conn_str = f'DRIVER={{{driver}}};SERVER={SERVER};DATABASE={DATABASE};UID={USER};PWD={PASSWORD};TrustServerCertificate=yes'
     return pyodbc.connect(conn_str)
 
 

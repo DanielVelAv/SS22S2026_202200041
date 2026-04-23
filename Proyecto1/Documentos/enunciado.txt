@@ -1,0 +1,1219 @@
+Seminario  de  Sistemas  2  
+ 
+Universidad  San  Carlos  de  Guatemala  
+Facultad  de  ingeniería.  
+Ingeniería  en  ciencias  y  sistemas  
+ 
+ 
+ 
+ 
+ 
+Proyecto  1:  Implementación  del  ﬂujo  completo  de  
+Microsoft
+ 
+con
+ 
+SSIS
+ 
+y
+ 
+SSAS
+ 
+en
+ 
+SQL
+ 
+Server
+ 
+ 
+ 
+ 
+PONDERACIÓN:   25  pts  
+Tiempo  estimado:   24  hrs  
+ 
+ 
+Seminario  de  Sistemas  2  
+  
+Índice  
+ 
+1.  MARCO  FORMATIVO  3 1.1.  Valor  3 1.2.  Competencia(s)  3 1.3.  Objetivo  SMART  4 2.  Resumen  Ejecutivo  5 3.  Enunciado  del  Proyecto  5 3.1  Descripción  del  problema  a  resolver  5 3.2  Alcance  del  proyecto  5 3.3  Requerimientos  técnicos  6 3.4  Entregables  6 4.  Material  de  apoyo  7 5.  Metodología  7 6.  Recursos  y  herramientas  a  utilizar  8 7.  Desarrollo  de  Habilidades  Blandas  8 8.  Cronograma  9 9.  Rúbrica  de  Calificación  9 9.1  Requisitos  para  optar  a  la  calificación  9 9.2  Resumen  de  Puntuaciones  10 9.3  Comentarios  Generales  10 9.4  Detalle  de  la  Calificación  11 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Seminario  de  Sistemas  2  
+ 1.  MARCO  FORMATIVO   
+ 
+1.1.  Valor  
+ Nombre  del  valor   ¿Cómo  se  aplica  en  tu  laboratorio?  
+Responsabilidad  técnica  y  compromiso  profesional  
+Cumplimiento  de  las  fases  del  ﬂujo  de  BI  de  Microsoft  con  rigor  técnico,  entrega  puntual  y  documentación  completa  que  reﬂeje  el  diseño,  implementación  y  validación  de  SSIS,  Data  Warehouse  y  SSAS.  
+ 
+1.2.  Competencia(s)  
+ Tipo  de  Competencia   Generales  y  especíﬁcas  
+Competencia  General   ●  Aplica  principios  de  ingeniería  y  ciencias  de  la  computación  integrando  fundamentos  teóricos  y  prácticos  en  la  formulación  y  resolución  adecuada  de  problemas  de  información  ●  Crea  modelos  analíticos  y  soluciones  de  interpretación  aplicando  metodologías  de  análisis  y  ciclo  de  vida  de  datos  con  el  ﬁn  de  resolver  problemas  complejos  en  contextos  organizacionales  
+Competencia  Especíﬁca  Analiza  e  integra  datos  estructurados  mediante  procesos  de  preparación,  transformación  y  modelado  analítico  para  identiﬁcar  patrones,  relaciones  y  oportunidades  de  mejora.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Seminario  de  Sistemas  2  
+  
+1.3.  Objetivo  SMART  
+ 
+SMART  Deﬁnición  Objetivo  redactado  
+Especíﬁco  (¿Qué?)  
+El  objetivo  es  concreto  y  tangible.  
+Diseñar  e  implementar  una  solución  completa  de  Business  Intelligence  para  la  empresa  SG-Food,  desarrollando  un  proceso  ETL  con  SSIS,  un  Data  Warehouse  en  SQL  Server  y  un  modelo  analítico  en  SSAS  para  el  análisis  de  ventas  e  inventarios.  
+Medible  (¿Cuánto?)  
+El  objetivo  tiene  una  medida  objetiva  de  éxito.  
+El  proyecto  se  considerará  cumplido  al  entregar  un  sistema  funcional  con  el  proceso  ETL  operativo,  el  Data  Warehouse  correctamente  implementado,  el  modelo  SSAS  procesado  y  documentación  técnica  que  describa  las  fases  y  resultados.  
+Alcanzable  (¿Cómo?)  
+El  objetivo  debe  ser  posible  con  los  recursos  disponibles.  
+El  objetivo  puede  lograrse  utilizando  las  herramientas  de  Microsoft  (Visual  Studio,  SSIS,  SSAS  y  SQL  Server)  y  aplicando  los  conocimientos  adquiridos  sobre  modelado,  integración  y  análisis  de  datos.  
+Realista  (¿Para  qué?)  
+El  objetivo  contribuye  a  metas  más  amplias.  
+Fortalece  las  competencias  prácticas  en  arquitectura  de  datos,  integración  y  modelado  analítico,  alineadas  con  las  necesidades  reales  de  organizaciones  que  gestionan  grandes  volúmenes  de  información.  
+A  Tiempo  (¿Cuándo?)  
+El  objetivo  tiene  fecha  límite  o  mejor  aún  un  cronograma  de  hitos  de  progreso   
+Debe  completarse  conforme  al  cronograma  del  curso  del  semestre  2026-1,  dentro  del  período  asignado  para  el  desarrollo  del  proyecto  ﬁnal.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Seminario  de  Sistemas  2  
+ 2.  Resumen  Ejecutivo  
+Este  proyecto,  desarrollado  en  el  curso  Seminario  de  Sistemas  2,  tiene  como  propósito  
+implementar
+ 
+una
+ 
+solución
+ 
+completa
+ 
+de
+ 
+Business
+ 
+Intelligence
+ 
+para
+ 
+optimizar
+ 
+el
+ 
+análisis
+ 
+de
+ 
+ventas
+ 
+e
+ 
+inventarios
+ 
+de
+ 
+una
+ 
+empresa.
+ 
+El
+ 
+problema
+ 
+identiﬁcado
+ 
+es
+ 
+la
+ 
+lentitud
+ 
+en
+ 
+el
+ 
+procesamiento,
+ 
+la
+ 
+rigidez
+ 
+en
+ 
+las
+ 
+consultas
+ 
+analíticas
+ 
+y
+ 
+la
+ 
+sobrecarga
+ 
+de
+ 
+la
+ 
+base
+ 
+de
+ 
+datos
+ 
+transaccional.
+ 
+La
+ 
+propuesta
+ 
+consiste
+ 
+en
+ 
+diseñar
+ 
+e
+ 
+implementar
+ 
+un
+ 
+Data
+ 
+Warehouse
+ 
+en
+ 
+SQL
+ 
+Server,
+ 
+un
+ 
+proceso
+ 
+ETL
+ 
+con
+ 
+SSIS
+ 
+y
+ 
+un
+ 
+modelo
+ 
+analítico
+ 
+en
+ 
+SSAS
+ 
+que
+ 
+permita
+ 
+consultar
+ 
+información
+ 
+estratégica
+ 
+de
+ 
+forma
+ 
+ágil
+ 
+y
+ 
+estructurada.
+ 
+El
+ 
+proyecto
+ 
+permitirá
+ 
+aplicar
+ 
+competencias
+ 
+en
+ 
+integración
+ 
+de
+ 
+datos,
+ 
+modelado
+ 
+dimensional,
+ 
+procesamiento
+ 
+analítico
+ 
+y
+ 
+documentación
+ 
+técnica
+ 
+profesional.
+ 
+3.  Enunciado  del  Proyecto  
+3.1  Descripción  del  problema  a  resolver  
+SG-Food  es  una  empresa  dedicada  a  la  distribución  y  comercialización  de  productos  de  
+diversas
+ 
+marcas
+ 
+y
+ 
+categorías.
+ 
+Actualmente
+ 
+enfrenta
+ 
+diﬁcultades
+ 
+en
+ 
+el
+ 
+análisis
+ 
+de
+ 
+ventas
+ 
+e
+ 
+inventarios
+ 
+debido
+ 
+a
+ 
+tiempos
+ 
+de
+ 
+respuesta
+ 
+lentos,
+ 
+sobrecarga
+ 
+en
+ 
+su
+ 
+base
+ 
+de
+ 
+datos
+ 
+principal
+ 
+y
+ 
+limitaciones
+ 
+para
+ 
+generar
+ 
+reportes
+ 
+ﬂexibles.
+ 
+El  estudiante  deberá  desarrollar  una  solución  de  Business  Intelligence  que  permita  optimizar  
+el
+ 
+procesamiento
+ 
+y
+ 
+análisis
+ 
+de
+ 
+la
+ 
+información,
+ 
+mediante
+ 
+la
+ 
+implementación
+ 
+de
+ 
+un
+ 
+ﬂujo
+ 
+completo
+ 
+con
+ 
+ETL
+ 
+en
+ 
+SSIS,
+ 
+un
+ 
+Data
+ 
+Warehouse
+ 
+en
+ 
+SQL
+ 
+Server
+ 
+y
+ 
+un
+ 
+modelo
+ 
+analítico
+ 
+en
+ 
+SSAS.
+ 
+El
+ 
+objetivo
+ 
+es
+ 
+disponer
+ 
+de
+ 
+una
+ 
+arquitectura
+ 
+robusta
+ 
+que
+ 
+integre
+ 
+datos
+ 
+provenientes
+ 
+de
+ 
+múltiples
+ 
+fuentes,
+ 
+procese
+ 
+información
+ 
+conﬁable
+ 
+y
+ 
+facilite
+ 
+consultas
+ 
+analíticas
+ 
+para
+ 
+la
+ 
+toma
+ 
+de
+ 
+decisiones
+ 
+oportunas.
+ 
+3.2  Alcance  del  proyecto  
+Obligatorio:  
+●  Implementar  un  proceso  ETL  utilizando  SQL  Server  Integration  Services  (SSIS).  ●  Desarrollar  un  Data  Warehouse  en  SQL  Server  con  modelo  dimensional  (hechos  y  
+dimensiones).
+ ●  Integrar  datos  provenientes  de  múltiples  fuentes  heterogéneas,  incluyendo  bases  de  
+datos
+ 
+y
+ 
+archivos
+ 
+delimitados.
+ ●  Implementar  un  modelo  analítico  en  SQL  Server  Analysis  Services  (SSAS)  con  
+dimensiones,
+ 
+jerarquías
+ 
+y
+ 
+medidas
+ 
+para
+ 
+ventas
+ 
+e
+ 
+inventarios.
+ ●  Validar  y  documentar  el  ﬂujo  completo:  proceso  ETL,  Data  Warehouse  y  modelo  
+analítico
+ 
+implementado.
+ 
+Opcional  /  Recomendado:  
+●  Incluir  automatización  del  proceso  de  carga  y  del  procesamiento  del  modelo  SSAS.  
+ Seminario  de  Sistemas  2  
+ ●  Implementar  validaciones  adicionales  y  manejo  de  errores  dentro  del  ﬂujo  ETL  y  del  
+procesamiento
+ 
+analítico.
+ ●  Conectar  el  modelo  SSAS  con  Excel  o  Power  BI  para  visualización  ejecutiva.  
+3.3  Requerimientos  técnicos  
+●  Herramientas  de  desarrollo:  Microsoft  Visual  Studio  (con  SSIS  y  SSAS).  ●  Plataforma  de  datos:  SQL  Server  (Data  Warehouse)  y  SQL  Server  Analysis  Services  
+(modelo
+ 
+analítico).
+ ●  Fuentes  de  datos:  múltiples  fuentes  heterogéneas,  incluyendo  dos  bases  de  datos  
+de
+ 
+fabricantes
+ 
+distintos
+ 
+y
+ 
+archivos
+ 
+de
+ 
+texto
+ 
+delimitados
+ 
+por
+ 
+"|"
+ 
+(.comp
+ 
+y
+ 
+.vent).
+ ●  Procesos  requeridos:  extracción,  transformación,  limpieza,  carga,  procesamiento  
+del
+ 
+modelo
+ 
+y
+ 
+validación
+ 
+de
+ 
+consultas
+ 
+analíticas.
+ ●  Modelo  de  datos:  esquema  dimensional  o  estrella  en  el  Data  Warehouse  y  modelo  
+analítico
+ 
+en
+ 
+SSAS
+ 
+con
+ 
+dimensiones,
+ 
+jerarquías,
+ 
+medidas
+ 
+y
+ 
+relaciones
+ 
+consistentes.
+ ●  Conocimientos  aplicados:  ETL,  Data  Warehouse,  modelado  dimensional,  SSAS,  
+validación
+ 
+y
+ 
+control
+ 
+de
+ 
+calidad
+ 
+de
+ 
+datos.
+ 
+3.4  Entregables  
+Tipo  Descripción  
+Proyecto  de  Visual  Studio  (SSIS  y  SSAS)  
+Solución  completa  con  los  paquetes  ETL  desarrollados  en  SSIS  y  el  proyecto  analítico  en  SSAS,  incluyendo  ﬂujos  de  extracción,  transformación,  validación,  carga  y  procesamiento  del  modelo.  
+Script  DDL  del  Data  Warehouse  
+Archivo  con  las  sentencias  SQL  para  la  creación  de  las  tablas  de  hechos,  dimensiones,  relaciones  y  claves  necesarias  para  el  Data  Warehouse  implementado.  
+Scripts  de  validación  y  consultas  analíticas  
+Archivos  SQL  y  consultas  analíticas  utilizadas  para  comprobar  la  correcta  carga  de  datos  en  el  Data  Warehouse,  validar  la  integridad  de  la  información  y  veriﬁcar  resultados  del  modelo  SSAS.  
+Documentación  técnica  
+Documento  o  archivo  README  que  incluya  el  nombre  del  proyecto,  descripción  de  cada  fase  del  proceso  ETL,  modelo  del  
+ Seminario  de  Sistemas  2  
+ Data  Warehouse,  estructura  del  modelo  SSAS  con  justiﬁcación  de  diseño  y  manual  de  implementación.  
+Repositorio  del  curso  Carpeta  Proyecto1  dentro  del  repositorio  SS22S2026_#carnet ,  que  contenga  todos  los  archivos  del  proyecto,  documentación  y  scripts  organizados  conforme  a  los  lineamientos  del  laboratorio.  
+ 
+4.  Material  de  apoyo  ●  Documentación  oﬁcial  de  SQL  Server  Integration  Services  (SSIS)  https://learn.microsoft.com/sql/integration-services/ ●  Documentación  oﬁcial  de  SQL  Server  Analysis  Services  (SSAS)  
+https://learn.microsoft.com/en-us/analysis-services/ssas-overview?view=sql-analysis-s
+ervices-2025
+ ●  Modelos  multidimensionales  en  SSAS  
+https://learn.microsoft.com/en-us/analysis-services/multidimensional-models/multidime
+nsional-models-ssas?view=sql-analysis-services-2025
+ ●  Referencia  de  T-SQL  (Transact-SQL)  para  diseño  de  modelos  y  consultas  
+https://learn.microsoft.com/sql/t-sql/language-reference
+ 
+ 
+5.  Metodología  
+1.  Investigación  preliminar  
+Analizar
+ 
+el
+ 
+contexto
+ 
+de
+ 
+la
+ 
+empresa
+ 
+SG-Food
+ 
+y
+ 
+revisar
+ 
+los
+ 
+conceptos
+ 
+clave
+ 
+de
+ 
+Business
+ 
+Intelligence,
+ 
+Data
+ 
+Warehouse,
+ 
+procesos
+ 
+ETL
+ 
+y
+ 
+procesamiento
+ 
+analítico
+ 
+con
+ 
+SSAS.
+ 
+Identiﬁcar
+ 
+las
+ 
+fuentes
+ 
+de
+ 
+datos
+ 
+y
+ 
+deﬁnir
+ 
+las
+ 
+estructuras
+ 
+necesarias
+ 
+para
+ 
+la
+ 
+integración.
+ 
+2.  Diseño  del  sistema  de  BI  
+Deﬁnir
+ 
+la
+ 
+arquitectura
+ 
+general
+ 
+del
+ 
+sistema.
+ 
+Diseñar
+ 
+el
+ 
+modelo
+ 
+dimensional
+ 
+del
+ 
+Data
+ 
+Warehouse
+ 
+y
+ 
+el
+ 
+modelo
+ 
+analítico
+ 
+en
+ 
+SSAS,
+ 
+planiﬁcando
+ 
+el
+ 
+ﬂujo
+ 
+ETL
+ 
+en
+ 
+SSIS,
+ 
+las
+ 
+medidas,
+ 
+jerarquías,
+ 
+validaciones
+ 
+y
+ 
+el
+ 
+control
+ 
+de
+ 
+errores.
+ 
+3.  Desarrollo  del  proceso  ETL  
+Implementar
+ 
+en
+ 
+SQL
+ 
+Server
+ 
+Integration
+ 
+Services
+ 
+(SSIS)
+ 
+los
+ 
+ﬂujos
+ 
+de
+ 
+extracción,
+ 
+transformación
+ 
+y
+ 
+carga
+ 
+de
+ 
+datos
+ 
+desde
+ 
+las
+ 
+fuentes
+ 
+deﬁnidas.
+ 
+Asegurar
+ 
+la
+ 
+estandarización
+ 
+y
+ 
+calidad
+ 
+de
+ 
+los
+ 
+datos
+ 
+antes
+ 
+de
+ 
+su
+ 
+carga
+ 
+al
+ 
+Data
+ 
+Warehouse.
+ 
+4.  Implementación  del  Data  Warehouse  y  del  modelo  analítico  
+Construir
+ 
+el
+ 
+modelo
+ 
+diseñado
+ 
+en
+ 
+SQL
+ 
+Server,
+ 
+crear
+ 
+tablas
+ 
+de
+ 
+hechos
+ 
+y
+ 
+dimensiones,
+ 
+aplicar
+ 
+ Seminario  de  Sistemas  2  
+ claves  primarias  y  foráneas,  e  implementar  en  SSAS  el  modelo  analítico  conectado  al  Data  
+Warehouse
+ 
+con
+ 
+dimensiones,
+ 
+jerarquías,
+ 
+medidas
+ 
+y
+ 
+procesamiento.
+ 
+5.  Validación  y  pruebas  
+Ejecutar
+ 
+pruebas
+ 
+funcionales
+ 
+para
+ 
+veriﬁcar
+ 
+el
+ 
+conteo
+ 
+de
+ 
+registros,
+ 
+la
+ 
+integridad
+ 
+referencial,
+ 
+la
+ 
+coherencia
+ 
+de
+ 
+los
+ 
+datos
+ 
+cargados
+ 
+y
+ 
+el
+ 
+procesamiento
+ 
+exitoso
+ 
+del
+ 
+modelo
+ 
+SSAS.
+ 
+Documentar
+ 
+los
+ 
+resultados
+ 
+obtenidos
+ 
+y
+ 
+realizar
+ 
+los
+ 
+ajustes
+ 
+necesarios.
+ 
+6.  Documentación  y  entrega  ﬁnal  
+Elaborar
+ 
+un
+ 
+documento
+ 
+técnico
+ 
+que
+ 
+describa
+ 
+todas
+ 
+las
+ 
+fases
+ 
+del
+ 
+proyecto,
+ 
+incluyendo
+ 
+el
+ 
+diseño
+ 
+del
+ 
+Data
+ 
+Warehouse,
+ 
+las
+ 
+conﬁguraciones
+ 
+del
+ 
+proceso
+ 
+ETL,
+ 
+la
+ 
+estructura
+ 
+del
+ 
+modelo
+ 
+SSAS
+ 
+y
+ 
+los
+ 
+resultados
+ 
+de
+ 
+validación.
+ 
+Subir
+ 
+al
+ 
+repositorio
+ 
+correspondiente
+ 
+todos
+ 
+los
+ 
+archivos
+ 
+requeridos
+ 
+en
+ 
+la
+ 
+carpeta
+ 
+Proyecto1.
+ 
+ 
+6.  Recursos  y  herramientas  a  utilizar  
+Software:  
+●  Microsoft  SQL  Server  ●  Microsoft  Visual  Studio  (con  extensiones  SQL  Server  Data  Tools  -  SSIS  y  SSAS)  ●  SQL  Server  Management  Studio  (SSMS)  
+Plataformas:  
+●  GitHub  (para  repositorio  del  proyecto  y  control  de  versiones)  ●  UEDI  (para  entrega  oﬁcial  del  proyecto)  
+Lenguajes  y  tecnologías:  
+●  T-SQL  (para  creación  de  estructuras  y  consultas  de  validación)  ●  SSIS  (para  desarrollo  del  proceso  ETL)  ●  SSAS  (modelado  analítico,  medidas,  jerarquías  y  procesamiento)  
+Lecturas  recomendadas:  
+●  Documentación  de  SQL  Server  Integration  Services  (SSIS)  ●  Documentación  de  SQL  Server  Analysis  Services  (SSAS)  ●  Guías  de  modelado  dimensional  y  diseño  de  medidas  ●  Artículos  sobre  validación,  procesamiento  y  calidad  de  datos  en  entornos  
+empresariales
+ 
+ 
+7.  Desarrollo  de  Habilidades  Blandas  
+ Seminario  de  Sistemas  2  
+ En  este  proyecto  individual  se  promueven  competencias  transversales  orientadas  al  
+desempeño
+ 
+profesional
+ 
+autónomo:
+ 
+●  Autogestión  del  tiempo:  Planiﬁcación  eﬁciente  de  las  fases  del  proyecto,  
+cumplimiento
+ 
+de
+ 
+plazos
+ 
+y
+ 
+priorización
+ 
+de
+ 
+tareas
+ 
+según
+ 
+el
+ 
+cronograma.
+ 
+ ●  Responsabilidad  personal:  Ejecución  de  cada  etapa  del  ﬂujo  BI  de  Microsoft  con  
+rigor
+ 
+técnico
+ 
+y
+ 
+compromiso
+ 
+con
+ 
+la
+ 
+calidad
+ 
+de
+ 
+los
+ 
+resultados.
+ ●  Reﬂexión  crítica:  Análisis  del  propio  desempeño,  identiﬁcación  de  áreas  de  mejora  y  
+valoración
+ 
+del
+ 
+aprendizaje
+ 
+adquirido
+ 
+durante
+ 
+el
+ 
+desarrollo
+ 
+del
+ 
+proyecto.
+ 
+ 
+ 
+ 
+8.  Cronograma  
+Tipo  Fecha  Inicio  Fecha  Fin  
+Asignación  de  Proyecto  Semana  7  Semana  7  
+Elaboración  Semana  8  Semana  10  
+Caliﬁcación  Semana  10  Semana  10  
+9.  Rúbrica  de  Caliﬁcación  
+9.1  Requisitos  para  optar  a  la  caliﬁcación  
+Tema  Descripción  Cumple  (Sí/No)  
+Cumplimiento  de  la  tecnología  establecida  
+El  desarrollo  debe  realizarse  utilizando  Microsoft  SQL  Server,  Visual  Studio,  SSIS  y  SSAS  como  componentes  obligatorios  del  ﬂujo  completo.  
+ 
+Uso  de  herramientas  requeridas  
+Se  debe  evidenciar  el  uso  de  paquetes  SSIS  funcionales,  creación  del  Data  Warehouse  en  SQL  Server,  implementación  y  procesamiento  del  modelo  SSAS,  y  validación  de  datos  mediante  consultas  SQL  y  analíticas.  
+ 
+ Seminario  de  Sistemas  2  
+ 
+Gestión  y  entregas  del  proyecto  
+El  repositorio  SS22S2026_#carnet  debe  contener  la  carpeta  Proyecto1  con  todos  los  archivos:  solución  de  Visual  Studio,  scripts  SQL,  proyecto/modelo  SSAS  y  documentación  técnica.  
+ 
+Documentación  obligatoria  
+Debe  incluir  un  documento  o  README  con  la  descripción  del  proceso  ETL,  el  Data  Warehouse,  el  modelo  SSAS  implementado,  la  justiﬁcación  del  diseño  y  un  manual  de  implementación.  
+ 
+Pruebas  y  funcionalidad  mínima  
+El  sistema  debe  ejecutar  correctamente  el  proceso  ETL,  cargar  datos  desde  las  fuentes  establecidas,  procesar  el  modelo  SSAS  y  permitir  la  validación  de  resultados  mediante  consultas  analíticas.  
+ 
+ 
+ 
+9.2  Resumen  de  Puntuaciones  
+Área  Puntos  Totales  
+Puntos  Obtenidos  
+1.  Habilidades    
+Desarrollo  del  ﬂujo  ETL  en  SSIS  y  procesamiento  del  modelo  SSAS  
+20   
+Documentación  técnica  y  manual  de  implementación  10   
+Cumplimiento  de  entregables  y  organización  del  repositorio  
+10   
+Sub-Total  Habilidades  40   
+2.  Conocimientos    
+Diseño  e  implementación  del  Data  Warehouse  y  del  modelo  analítico  en  SSAS  
+30   
+Integración  de  múltiples  fuentes  y  validación  del  ﬂujo  completo  
+30   
+Sub-Total  Conocimientos  60   
+TOTAL  GENERAL  100   
+ Seminario  de  Sistemas  2  
+ 9.3  Comentarios  Generales  
+ 
+________________________________________________________________________
+_
+ 
+ 
+________________________________________________________________________
+_
+ 
+ 
+________________________________________________________________________
+_
+ 
+ Seminario  de  Sistemas  2  
+ 
+9.4  Detalle  de  la  Caliﬁcación  
+No.  Criterio  de  evaluación  
+Punteo  máximo  
+Satisfactorio  (100  %  –  61  %)  Necesita  mejorar  (60  %  –  0  %)  Punteo  obtenido  
+1  Habilidades  40     
+1.1  Desarrollo  del  ﬂujo  ETL  en  SSIS  y  procesamiento  del  modelo  SSAS  
+20  Implementa  correctamente  las  fases  de  extracción,  transformación  y  carga  en  SSIS,  y  procesa  exitosamente  el  modelo  SSAS  con  dimensiones,  jerarquías  y  medidas  funcionales.  
+El  ﬂujo  ETL  o  el  procesamiento  del  modelo  SSAS  no  está  completo  o  presenta  fallos  que  impiden  la  carga  y  validación  de  los  datos.  
+ 
+ Rango  del  punteo:    20  –  12  11  –  0  
+1.2  Documentación  técnica  y  manual  de  implementación  
+10  Incluye  descripción  del  proceso  ETL,  modelo  DW,  estructura  de  SSAS,  conﬁguraciones  y  pasos  de  ejecución  de  forma  clara  y  profesional.  
+La  documentación  es  incompleta,  poco  clara  o  carece  de  explicaciones  sobre  el  proceso,  el  DW  o  el  modelo  SSAS  implementado.  
+ 
+ Rango  del  punteo:    10  –  6  5  –  0  
+1.3  Cumplimiento  de  entregables  y  repositorio  
+10  El  repositorio  contiene  todos  los  archivos  organizados  (solución  SSIS/SSAS,  scripts  y  documentación)  siguiendo  la  estructura  solicitada.  
+Faltan  archivos,  la  estructura  es  incorrecta  o  no  se  siguen  los  lineamientos  de  entrega.  
+ 
+ Rango  del  punteo:    10  –  6  5  –  0  
+ Seminario  de  Sistemas  2  
+ Sub-total  Habilidades  
+ 40     
+2  Conocimientos  60     
+2.1  Diseño  e  implementación  del  Data  Warehouse  y  del  modelo  analítico  en  SSAS  
+30  El  modelo  dimensional  y  el  modelo  analítico  en  SSAS  están  correctamente  diseñados  e  implementados,  con  dimensiones,  medidas,  relaciones  y  procesamiento  coherentes.  
+El  Data  Warehouse  o  el  modelo  SSAS  presentan  errores  en  relaciones,  medidas,  procesamiento  o  no  ejecutan  correctamente  en  SQL  Server.  
+ 
+ Rango  del  punteo:    30  –  18  17  –  0  
+2.2  Integración  de  múltiples  fuentes  y  validación  del  ﬂujo  completo  
+30  Integra  de  forma  exitosa  las  fuentes  de  datos,  carga  el  Data  Warehouse,  procesa  SSAS  y  ejecuta  consultas  de  validación  y  análisis  sobre  el  modelo  implementado.  
+No  logra  integrar  todas  las  fuentes,  completar  el  ﬂujo  o  las  consultas  no  validan  adecuadamente  la  carga  y  el  procesamiento  analítico.  
+ 
+ Rango  del  punteo:   30  –  18  17  –  0  
+Sub-total  Conocimientos  
+ 60     
+Total  General   100     
+ 
+ 

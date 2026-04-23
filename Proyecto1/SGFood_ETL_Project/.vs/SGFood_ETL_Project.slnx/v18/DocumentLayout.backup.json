@@ -1,0 +1,36 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Documentos\\GitHub\\SS22S2026_202200041\\Proyecto1\\SGFood_ETL_Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{82C9AE7B-A68F-5489-6B99-B5A49E07C9E4}|SGFood_ETL_Project\\SGFood_ETL_Project.dtproj|D:\\Documentos\\GitHub\\SS22S2026_202200041\\Proyecto1\\SGFood_ETL_Project\\SGFood_ETL_Project\\Package.dtsx||{CC84AFBD-DA02-46F4-8623-9F07E5569EDB}|Design",
+      "RelativeMoniker": "D:0:0:{82C9AE7B-A68F-5489-6B99-B5A49E07C9E4}|SGFood_ETL_Project\\SGFood_ETL_Project.dtproj|solutionrelative:SGFood_ETL_Project\\Package.dtsx||{CC84AFBD-DA02-46F4-8623-9F07E5569EDB}|Design"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Package.dtsx [Dise\u00F1o]",
+              "DocumentMoniker": "D:\\Documentos\\GitHub\\SS22S2026_202200041\\Proyecto1\\SGFood_ETL_Project\\SGFood_ETL_Project\\Package.dtsx",
+              "RelativeDocumentMoniker": "SGFood_ETL_Project\\Package.dtsx",
+              "ToolTip": "D:\\Documentos\\GitHub\\SS22S2026_202200041\\Proyecto1\\SGFood_ETL_Project\\SGFood_ETL_Project\\Package.dtsx [Dise\u00F1o]",
+              "RelativeToolTip": "SGFood_ETL_Project\\Package.dtsx [Dise\u00F1o]",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|",
+              "WhenOpened": "2026-04-12T18:32:35.556Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

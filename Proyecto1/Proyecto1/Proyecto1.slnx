@@ -1,0 +1,13 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Development" />
+    <Platform Name="Default" />
+  </Configurations>
+  <Project Path="Cubo_SGFood/Cubo_SGFood.dwproj" Type="d2abab84-bf74-430a-b69e-9dc6d40dda17">
+    <Platform Project="?" />
+    <Deploy />
+  </Project>
+  <Project Path="Proyecto1/Proyecto1.dtproj" Type="c9674dcb-5085-4a16-b785-4c70dd1589bd">
+    <Platform Project="?" />
+  </Project>
+</Solution>
