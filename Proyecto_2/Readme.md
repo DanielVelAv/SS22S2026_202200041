@@ -47,3 +47,38 @@ Al mitigar los "outliers" de la regresión y reducir la penalización del ruido 
 
 **Resultados ML.EVALUATE: M1 vs M2**
 ![Resultados M1 vs M2](Documentacion/evaluacion_m1_m2_resultados.png)
+
+### 5. Modelo Secundario (No Supervisado) - Clustering
+**Problema a resolver**: Encontrar agrupaciones (clústeres) naturales en los viajes de taxi según características de distancia, tarifa, propina y tiempo, para comprender los distintos perfiles de los usuarios y viajes.
+- **Tipo:** Modelo No Supervisado - `kmeans` (K-Means Clustering).
+- **Variable Objetivo:** Ninguna (por su naturaleza no supervisada).
+- **Variables de Entrada (Features):** `trip_distance`, `fare_amount`, `tip_amount`, `trip_duration_min`, `pickup_hour`.
+- **Evaluación y Modelos:** Se crearon dos versiones del modelo con distintos hiperparámetros:
+  - **M3 (Base):** K-Means con `num_clusters=3`.
+  - **M4 (Optimizado):** K-Means escalado a `num_clusters=5`, agregando la variable de tiempo (`pickup_hour`) e implementando inicialización inteligente `kmeans_init_method='KMEANS_PLUS_PLUS'`.
+- **Modelo Seleccionado:** Tras evaluar el índice `davies_bouldin_index` con `ML.EVALUATE`, el modelo M4 (5 clusters) fue elegido para el tablero, ya que sus 5 grupos permiten una granularidad mayor para perfilar los tipos de viajes (ej. viajes cortos de baja tarifa vs viajes largos de aeropuerto).
+
+> Modelos M3 y M4. métrica `davies_bouldin_index`, Se eligió el modelo con el mejor índice.
+
+> Ejecución de query
+![Evaluaciones K-Means M3 vs M4](Documentacion/evaluacion_kmeans_m3_m4.PNG)
+
+
+> Evaluaciones K-Means M3 vs M4
+![Evaluaciones K-Means M3 vs M4](Documentacion/evaluacion_kmeans_m3_m4_1.PNG)
+
+### 6. Insights y Hallazgos Visuales (Dashboard)
+A través de Looker Studio se generaron visualizaciones exploratorias conectadas dinámicamente a las tablas de BigQuery. Los hallazgos más destacados fueron:
+1. **Picos de Demanda:** Se identificó mediante un gráfico de barras que la mayor densidad de viajes ocurre hacia el final de la tarde (17:00 - 19:00), coincidiendo con los horarios de salida laboral.
+2. **Zonas Rentables:** El análisis visual con mapas de calor/burbujas revela que ciertas zonas de recogida (zonas aeroportuarias o distritos céntricos) generan los `fare_amount` promedios más altos.
+3. **Distribución:** La representación en el gráfico de anillo validó el amplio dominio de ciertos métodos de pago, lo cual orienta estrategias de cobro.
+4. **Panel de Machine Learning:** 
+   - **Rolling Forecast (Regresión vs Realidad):** Se visualizó mediante un gráfico de serie temporal la comparativa progresiva entre las tarifas reales (`tarifa_real`) frente a las tarifas predichas por el modelo de Regresión Lineal Múltiple (`tarifa_predicha`) a lo largo de las distintas horas de recogida.
+   - **Clústeres (K-Means):** Se incorporó una gráfica de burbujas usando el identificador `CENTROID_ID_TEXT` para categorizar visualmente a los 5 perfiles (clústeres) descubiertos por el modelo M4, observando de forma clara su agrupación por precio y distancia.
+
+
+> Exploratorio
+![Dashboard Exploratorio](Documentacion/dashboard_exploratorio.PNG)
+
+> Modelos ML
+![Dashboard Machine Learning](Documentacion/dashboard_modelos_ml.PNG)

@@ -79,7 +79,7 @@ FROM ML.PREDICT(
       EXTRACT(DAYOFWEEK FROM pickup_datetime) AS day_of_week,
       fare_amount
     FROM `seminariosistemas2-495301.Conjunto1.taxi_trips_2022_optimizada`
-    WHERE DATE(pickup_datetime) >= '2022-12-01' -- Evaluamos con datos de diciembre
+    WHERE DATE(pickup_datetime) BETWEEN '2022-03-01' AND '2022-03-31' -- Evaluamos con datos de marzo (que sí existen en la tabla optimizada)
     LIMIT 5000
   )
 );
